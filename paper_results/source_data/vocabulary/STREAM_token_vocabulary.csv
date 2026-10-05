@@ -1,0 +1,534 @@
+﻿Category,Token,Vocabulary,Code,Description,Value input
+Special,[PAD],—,—,Padding token (not attended),—
+Special,[UNK],—,—,Code not present in the training vocabulary,—
+Special,[MASK],—,—,Placeholder for masked events in the masked-event modeling (MEM) objective,—
+Special,[BASE],—,—,Dedicated surgery-index summary token; its output gives the baseline PO-AKI prediction,—
+Special,[SURGERY],—,—,Generic index-surgery token replacing procedure identity (generic-surgery ablation only),—
+Demographic,AGE,—,—,Age at surgery,"Age (years), z-scored"
+Demographic,SEX|8507,OMOP Gender,8507,Sex: Male,—
+Demographic,SEX|8532,OMOP Gender,8532,Sex: Female,—
+Demographic,RACE|0,OMOP Race,0,Race: Unknown / not reported,—
+Demographic,RACE|8515,OMOP Race,8515,Race: Asian,—
+Demographic,RACE|8516,OMOP Race,8516,Race: Black or African American,—
+Demographic,RACE|8527,OMOP Race,8527,Race: White,—
+Demographic,RACE|8557,OMOP Race,8557,Race: Native Hawaiian or Other Pacific Islander,—
+Demographic,RACE|8657,OMOP Race,8657,Race: American Indian or Alaska Native,—
+Demographic,RACE|38003574,OMOP Race,38003574,Race: Asian Indian,—
+Demographic,RACE|38003579,OMOP Race,38003579,Race: Chinese,—
+Demographic,RACE|38003581,OMOP Race,38003581,Race: Filipino,—
+Demographic,RACE|38003584,OMOP Race,38003584,Race: Japanese,—
+Demographic,RACE|38003585,OMOP Race,38003585,Race: Korean,—
+Demographic,RACE|38003592,OMOP Race,38003592,Race: Vietnamese,—
+Demographic,RACE|38003613,OMOP Race,38003613,Race: Other Pacific Islander,—
+Index procedure,SNOMED|1390003,SNOMED CT,1390003,Laparoscopic-assisted sigmoid colectomy,—
+Index procedure,SNOMED|3418002,SNOMED CT,3418002,Chondrectomy of spine,—
+Index procedure,SNOMED|6025007,SNOMED CT,6025007,Laparoscopic appendectomy,—
+Index procedure,SNOMED|8324006,SNOMED CT,8324006,Incision and drainage of rectal abscess,—
+Index procedure,SNOMED|8874001,SNOMED CT,8874001,Arthroscopy of knee with medial and lateral meniscectomy,—
+Index procedure,SNOMED|11401008,SNOMED CT,11401008,Dilation and curettage of uterus,—
+Index procedure,SNOMED|11466000,SNOMED CT,11466000,Cesarean section,—
+Index procedure,SNOMED|15018006,SNOMED CT,15018006,Laparoscopic repair of inguinal hernia,—
+Index procedure,SNOMED|20630000,SNOMED CT,20630000,Laparoscopic cholecystectomy with cholangiography,—
+Index procedure,SNOMED|22418005,SNOMED CT,22418005,Simple mastectomy of bilateral breasts,—
+Index procedure,SNOMED|23140002,SNOMED CT,23140002,Loop electrosurgical excision procedure of cervix,—
+Index procedure,SNOMED|24496007,SNOMED CT,24496007,Hemorrhoidectomy,—
+Index procedure,SNOMED|25353009,SNOMED CT,25353009,Craniotomy,—
+Index procedure,SNOMED|26337002,SNOMED CT,26337002,Exploratory thoracotomy,—
+Index procedure,SNOMED|32495000,SNOMED CT,32495000,Repair of bone of skull,—
+Index procedure,SNOMED|36910002,SNOMED CT,36910002,Craniectomy,—
+Index procedure,SNOMED|37422000,SNOMED CT,37422000,Arthroscopically aided anterior cruciate ligament reconstruction,—
+Index procedure,SNOMED|42010004,SNOMED CT,42010004,Uterine myomectomy,—
+Index procedure,SNOMED|42262007,SNOMED CT,42262007,Prosthetic total arthroplasty of shoulder joint,—
+Index procedure,SNOMED|44558001,SNOMED CT,44558001,Repair of inguinal hernia,—
+Index procedure,SNOMED|44946007,SNOMED CT,44946007,Repair of umbilical hernia,—
+Index procedure,SNOMED|45595009,SNOMED CT,45595009,Laparoscopic cholecystectomy,—
+Index procedure,SNOMED|47020004,SNOMED CT,47020004,Ventriculoperitoneal shunt,—
+Index procedure,SNOMED|52734007,SNOMED CT,52734007,Total replacement of hip,—
+Index procedure,SNOMED|58380004,SNOMED CT,58380004,Pericardiostomy,—
+Index procedure,SNOMED|59214008,SNOMED CT,59214008,Reduction mammoplasty,—
+Index procedure,SNOMED|62402000,SNOMED CT,62402000,Revision of total hip replacement,—
+Index procedure,SNOMED|66339000,SNOMED CT,66339000,Arthroscopy of ankle,—
+Index procedure,SNOMED|73632009,SNOMED CT,73632009,Laparoscopy,—
+Index procedure,SNOMED|74770008,SNOMED CT,74770008,Exploratory laparotomy,—
+Index procedure,SNOMED|75835007,SNOMED CT,75835007,Laparoscopic-assisted vaginal hysterectomy,—
+Index procedure,SNOMED|77202008,SNOMED CT,77202008,Incision and exploration mediastinum,—
+Index procedure,SNOMED|77543007,SNOMED CT,77543007,Ligation of fallopian tube,—
+Index procedure,SNOMED|90199006,SNOMED CT,90199006,Transurethral prostatectomy,—
+Index procedure,SNOMED|107944001,SNOMED CT,107944001,Large intestine excision,—
+Index procedure,SNOMED|116141005,SNOMED CT,116141005,Abdominal hysterectomy,—
+Index procedure,SNOMED|116144002,SNOMED CT,116144002,Total abdominal hysterectomy with bilateral salpingo-oophorectomy,—
+Index procedure,SNOMED|235159007,SNOMED CT,235159007,Percutaneous endoscopic insertion of gastrostomy tube,—
+Index procedure,SNOMED|236887006,SNOMED CT,236887006,Laparoscopic hysterectomy,—
+Index procedure,SNOMED|238298006,SNOMED CT,238298006,Fistulectomy of rectum,—
+Index procedure,SNOMED|265636007,SNOMED CT,265636007,Cerclage of cervix,—
+Index procedure,SNOMED|265675003,SNOMED CT,265675003,Split thickness graft of skin to skin,—
+Index procedure,SNOMED|280462001,SNOMED CT,280462001,Revision of knee arthroplasty,—
+Index procedure,SNOMED|281812007,SNOMED CT,281812007,Arthroscopic shoulder procedure,—
+Index procedure,SNOMED|302405008,SNOMED CT,302405008,Revision of skin flap,—
+Index procedure,SNOMED|309431009,SNOMED CT,309431009,Arthroscopy of knee joint,—
+Index procedure,SNOMED|314128006,SNOMED CT,314128006,Laparoscopic Nissen fundoplication using abdominal approach,—
+Index procedure,SNOMED|319175008,SNOMED CT,319175008,Insertion of tissue expander into breast,—
+Index procedure,SNOMED|359586003,SNOMED CT,359586003,Laminectomy with spinal fusion,—
+Index procedure,SNOMED|359887003,SNOMED CT,359887003,Nissen fundoplication,—
+Index procedure,SNOMED|386682000,SNOMED CT,386682000,Arthrodesis of foot,—
+Index procedure,SNOMED|386791007,SNOMED CT,386791007,Cystoscopy and transurethral resection of neoplasm of urinary bladder,—
+Index procedure,SNOMED|426243004,SNOMED CT,426243004,Balloon kyphoplasty of fracture of spine,—
+Index procedure,SNOMED|427074001,SNOMED CT,427074001,Laparoscopic sleeve gastrectomy,—
+Index procedure,SNOMED|438341004,SNOMED CT,438341004,Laparoscopic insertion of peritoneal dialysis catheter,—
+Index procedure,SNOMED|438557003,SNOMED CT,438557003,Total excision and replacement of lumbar intervertebral disc with prosthesis using anterior approach,—
+Index procedure,SNOMED|440118004,SNOMED CT,440118004,Laparoscopic insertion of gastrostomy tube,—
+Index procedure,SNOMED|444588006,SNOMED CT,444588006,Endovascular repair of abdominal aortic aneurysm,—
+Index procedure,SNOMED|449378007,SNOMED CT,449378007,Fusion of cervicothoracic region of spine with internal fixation by posterior approach,—
+Index procedure,SNOMED|608809006,SNOMED CT,608809006,Open reduction of fracture of acetabulum with internal fixation,—
+Index procedure,SNOMED|608833000,SNOMED CT,608833000,Laparoscopic repair of incisional hernia,—
+Index procedure,SNOMED|608890000,SNOMED CT,608890000,Laparoscopic excision of bilateral ovarian cysts,—
+Index procedure,SNOMED|609230000,SNOMED CT,609230000,Laparoscopic bilateral salpingo-oophorectomy,—
+Index procedure,SNOMED|609588000,SNOMED CT,609588000,Prosthetic total arthroplasty of knee joint,—
+Index procedure,SNOMED|699120002,SNOMED CT,699120002,Arthroscopic repair of rotator cuff,—
+Index procedure,SNOMED|703945007,SNOMED CT,703945007,Laparoscopic repair of hernia of anterior abdominal wall,—
+Index procedure,SNOMED|708627007,SNOMED CT,708627007,Laparoscopic excision of small intestine,—
+Index procedure,SNOMED|708877008,SNOMED CT,708877008,Laparoscopic total hysterectomy using robotic assistance,—
+Index procedure,SNOMED|708919000,SNOMED CT,708919000,Laparoscopic radical prostatectomy using robotic assistance,—
+Index procedure,SNOMED|709408000,SNOMED CT,709408000,Fusion of joint of cervical spine by anterior approach for deformity of cervical spine,—
+Index procedure,SNOMED|712992007,SNOMED CT,712992007,Laparoscopic low anterior resection of rectum using robotic assistance,—
+Index procedure,SNOMED|719351007,SNOMED CT,719351007,Uniportal video assisted thoracoscopic surgery,—
+Index procedure,SNOMED|771708006,SNOMED CT,771708006,Laparoscopic repair of umbilical hernia,—
+Index procedure,SNOMED|773225002,SNOMED CT,773225002,Laparoscopic repair of inguinal hernia using surgical mesh,—
+Index procedure,SNOMED|830198007,SNOMED CT,830198007,Minimally invasive decompression of lumbar spine,—
+Index procedure,SNOMED|1137453008,SNOMED CT,1137453008,Laparoscopic cholecystectomy using robotic assistance,—
+Index procedure,SNOMED|1156322007,SNOMED CT,1156322007,Repair of inguinal hernia using robotic assistance,—
+Condition,CCS|1,CCS (single-level diagnosis),1,Tuberculosis,—
+Condition,CCS|2,CCS (single-level diagnosis),2,Septicemia (except in labor),—
+Condition,CCS|3,CCS (single-level diagnosis),3,Bacterial infection unspecified site,—
+Condition,CCS|4,CCS (single-level diagnosis),4,Mycoses,—
+Condition,CCS|5,CCS (single-level diagnosis),5,HIV infection,—
+Condition,CCS|6,CCS (single-level diagnosis),6,Hepatitis,—
+Condition,CCS|7,CCS (single-level diagnosis),7,Viral infection,—
+Condition,CCS|8,CCS (single-level diagnosis),8,Other infections including parasitic,—
+Condition,CCS|9,CCS (single-level diagnosis),9,Sexually transmitted infections (not HIV or hepatitis),—
+Condition,CCS|10,CCS (single-level diagnosis),10,Immunizations and screening for infectious disease,—
+Condition,CCS|11,CCS (single-level diagnosis),11,Cancer of head and neck,—
+Condition,CCS|12,CCS (single-level diagnosis),12,Cancer of esophagus,—
+Condition,CCS|13,CCS (single-level diagnosis),13,Cancer of stomach,—
+Condition,CCS|14,CCS (single-level diagnosis),14,Cancer of colon,—
+Condition,CCS|15,CCS (single-level diagnosis),15,Cancer of rectum and anus,—
+Condition,CCS|16,CCS (single-level diagnosis),16,Cancer of liver and intrahepatic bile duct,—
+Condition,CCS|17,CCS (single-level diagnosis),17,Cancer of pancreas,—
+Condition,CCS|18,CCS (single-level diagnosis),18,Cancer of other GI organs peritoneum,—
+Condition,CCS|19,CCS (single-level diagnosis),19,Cancer of bronchus lung,—
+Condition,CCS|20,CCS (single-level diagnosis),20,Cancer other respiratory and intra thoracic,—
+Condition,CCS|21,CCS (single-level diagnosis),21,Cancer of bone and connective tissue,—
+Condition,CCS|22,CCS (single-level diagnosis),22,Melanomas of skin,—
+Condition,CCS|23,CCS (single-level diagnosis),23,Other non-epithelial cancer of skin,—
+Condition,CCS|24,CCS (single-level diagnosis),24,Cancer of breast,—
+Condition,CCS|25,CCS (single-level diagnosis),25,Cancer of uterus,—
+Condition,CCS|26,CCS (single-level diagnosis),26,Cancer of cervix,—
+Condition,CCS|27,CCS (single-level diagnosis),27,Cancer of ovary,—
+Condition,CCS|28,CCS (single-level diagnosis),28,Cancer of other female genital organs,—
+Condition,CCS|29,CCS (single-level diagnosis),29,Cancer of prostate,—
+Condition,CCS|30,CCS (single-level diagnosis),30,Cancer of testis,—
+Condition,CCS|31,CCS (single-level diagnosis),31,Cancer of other male genital organs,—
+Condition,CCS|32,CCS (single-level diagnosis),32,Cancer of bladder,—
+Condition,CCS|33,CCS (single-level diagnosis),33,Cancer of kidney and renal pelvis,—
+Condition,CCS|34,CCS (single-level diagnosis),34,Cancer of other urinary organs,—
+Condition,CCS|35,CCS (single-level diagnosis),35,Cancer of brain and nervous system,—
+Condition,CCS|36,CCS (single-level diagnosis),36,Cancer of thyroid,—
+Condition,CCS|37,CCS (single-level diagnosis),37,Hodgkins disease,—
+Condition,CCS|38,CCS (single-level diagnosis),38,Non-Hodgkins lymphoma,—
+Condition,CCS|39,CCS (single-level diagnosis),39,Leukemias,—
+Condition,CCS|40,CCS (single-level diagnosis),40,Multiple myeloma,—
+Condition,CCS|41,CCS (single-level diagnosis),41,Cancer other and unspecified primary,—
+Condition,CCS|42,CCS (single-level diagnosis),42,Secondary malignancies,—
+Condition,CCS|43,CCS (single-level diagnosis),43,Malignant neoplasm without specification of site,—
+Condition,CCS|44,CCS (single-level diagnosis),44,Neoplasms of unspecified nature or uncertain behavior,—
+Condition,CCS|45,CCS (single-level diagnosis),45,Maintenance chemotherapy radiotherapy,—
+Condition,CCS|46,CCS (single-level diagnosis),46,Benign neoplasm of uterus,—
+Condition,CCS|47,CCS (single-level diagnosis),47,Other and unspecified benign neoplasm,—
+Condition,CCS|48,CCS (single-level diagnosis),48,Thyroid disorders,—
+Condition,CCS|49,CCS (single-level diagnosis),49,Diabetes mellitus without complication,—
+Condition,CCS|50,CCS (single-level diagnosis),50,Diabetes mellitus with complications,—
+Condition,CCS|51,CCS (single-level diagnosis),51,Other endocrine disorders,—
+Condition,CCS|52,CCS (single-level diagnosis),52,Nutritional deficiencies,—
+Condition,CCS|53,CCS (single-level diagnosis),53,Disorders of lipid metabolism,—
+Condition,CCS|54,CCS (single-level diagnosis),54,Gout and other crystal arthropathies,—
+Condition,CCS|55,CCS (single-level diagnosis),55,Fluid and electrolyte disorders,—
+Condition,CCS|56,CCS (single-level diagnosis),56,Cystic fibrosis,—
+Condition,CCS|57,CCS (single-level diagnosis),57,Immunity disorders,—
+Condition,CCS|58,CCS (single-level diagnosis),58,Other nutritional endocrine and metabolic disorders,—
+Condition,CCS|59,CCS (single-level diagnosis),59,Deficiency and other anemia,—
+Condition,CCS|60,CCS (single-level diagnosis),60,Acute posthemorrhagic anemia,—
+Condition,CCS|61,CCS (single-level diagnosis),61,Sickle cell anemia,—
+Condition,CCS|62,CCS (single-level diagnosis),62,Coagulation and hemorrhagic disorders,—
+Condition,CCS|63,CCS (single-level diagnosis),63,Diseases of white blood cells,—
+Condition,CCS|64,CCS (single-level diagnosis),64,Other hematologic conditions,—
+Condition,CCS|76,CCS (single-level diagnosis),76,Meningitis (except by TB or STDs),—
+Condition,CCS|77,CCS (single-level diagnosis),77,Encephalitis (except by TB or STDs),—
+Condition,CCS|78,CCS (single-level diagnosis),78,Other CNS infection and poliomyelitis,—
+Condition,CCS|79,CCS (single-level diagnosis),79,Parkinsons disease,—
+Condition,CCS|80,CCS (single-level diagnosis),80,Multiple sclerosis,—
+Condition,CCS|81,CCS (single-level diagnosis),81,Other hereditary and degenerative nervous system conditions,—
+Condition,CCS|82,CCS (single-level diagnosis),82,Paralysis,—
+Condition,CCS|83,CCS (single-level diagnosis),83,Epilepsy convulsions,—
+Condition,CCS|84,CCS (single-level diagnosis),84,Headache including migraine,—
+Condition,CCS|85,CCS (single-level diagnosis),85,Coma stupor and brain damage,—
+Condition,CCS|86,CCS (single-level diagnosis),86,Cataract,—
+Condition,CCS|87,CCS (single-level diagnosis),87,Retinal detachments defects vascular occlusion and retinopathy,—
+Condition,CCS|88,CCS (single-level diagnosis),88,Glaucoma,—
+Condition,CCS|89,CCS (single-level diagnosis),89,Blindness and vision defects,—
+Condition,CCS|90,CCS (single-level diagnosis),90,Inflammation infection of eye (no TB or STDs),—
+Condition,CCS|91,CCS (single-level diagnosis),91,Other eye disorders,—
+Condition,CCS|92,CCS (single-level diagnosis),92,Otitis media and related conditions,—
+Condition,CCS|93,CCS (single-level diagnosis),93,Conditions associated with dizziness or vertigo,—
+Condition,CCS|94,CCS (single-level diagnosis),94,Other ear and sense organ disorders,—
+Condition,CCS|95,CCS (single-level diagnosis),95,Other nervous system disorders,—
+Condition,CCS|96,CCS (single-level diagnosis),96,Heart valve disorders,—
+Condition,CCS|97,CCS (single-level diagnosis),97,Peri- endo- and myocarditis cardiomyopathy (no TB or STDs),—
+Condition,CCS|98,CCS (single-level diagnosis),98,Essential hypertension,—
+Condition,CCS|99,CCS (single-level diagnosis),99,Hypertension with complications and secondary hypertension,—
+Condition,CCS|100,CCS (single-level diagnosis),100,Acute myocardial infarction,—
+Condition,CCS|101,CCS (single-level diagnosis),101,Coronary atherosclerosis and other heart disease,—
+Condition,CCS|102,CCS (single-level diagnosis),102,Nonspecific chest pain,—
+Condition,CCS|103,CCS (single-level diagnosis),103,Pulmonary heart disease,—
+Condition,CCS|104,CCS (single-level diagnosis),104,Other and ill-defined heart disease,—
+Condition,CCS|105,CCS (single-level diagnosis),105,Conduction disorders,—
+Condition,CCS|106,CCS (single-level diagnosis),106,Cardiac dysrhythmias,—
+Condition,CCS|107,CCS (single-level diagnosis),107,Cardiac arrest and ventricular fibrillation,—
+Condition,CCS|108,CCS (single-level diagnosis),108,Congestive heart failure nonhypertensive,—
+Condition,CCS|109,CCS (single-level diagnosis),109,Acute cerebrovascular disease,—
+Condition,CCS|110,CCS (single-level diagnosis),110,Occlusion or stenosis of precerebral arteries,—
+Condition,CCS|111,CCS (single-level diagnosis),111,Other and ill-defined cerebrovascular disease,—
+Condition,CCS|112,CCS (single-level diagnosis),112,Transient cerebral ischemia,—
+Condition,CCS|113,CCS (single-level diagnosis),113,Late effects of cerebrovascular disease,—
+Condition,CCS|114,CCS (single-level diagnosis),114,Peripheral and visceral atherosclerosis,—
+Condition,CCS|115,CCS (single-level diagnosis),115,Aortic peripheral and visceral artery aneurysms,—
+Condition,CCS|116,CCS (single-level diagnosis),116,Aortic and peripheral arterial embolism or thrombosis,—
+Condition,CCS|117,CCS (single-level diagnosis),117,Other circulatory disease,—
+Condition,CCS|118,CCS (single-level diagnosis),118,Phlebitis thrombophlebitis and thromboembolism,—
+Condition,CCS|119,CCS (single-level diagnosis),119,Varicose veins of lower extremity,—
+Condition,CCS|120,CCS (single-level diagnosis),120,Hemorrhoids,—
+Condition,CCS|121,CCS (single-level diagnosis),121,Other diseases of veins and lymphatics,—
+Condition,CCS|122,CCS (single-level diagnosis),122,Pneumonia (except that caused by tuberculosis or STDs),—
+Condition,CCS|123,CCS (single-level diagnosis),123,Influenza,—
+Condition,CCS|124,CCS (single-level diagnosis),124,Acute and chronic tonsillitis,—
+Condition,CCS|125,CCS (single-level diagnosis),125,Acute bronchitis,—
+Condition,CCS|126,CCS (single-level diagnosis),126,Other upper respiratory infections,—
+Condition,CCS|127,CCS (single-level diagnosis),127,Chronic obstructive pulmonary disease and bronchiectasis,—
+Condition,CCS|128,CCS (single-level diagnosis),128,Asthma,—
+Condition,CCS|129,CCS (single-level diagnosis),129,Aspiration pneumonitis food/vomitus,—
+Condition,CCS|130,CCS (single-level diagnosis),130,Pleurisy pneumothorax pulmonary collapse,—
+Condition,CCS|131,CCS (single-level diagnosis),131,Respiratory failure insufficiency arrest (adult),—
+Condition,CCS|132,CCS (single-level diagnosis),132,Lung disease due to external agents,—
+Condition,CCS|133,CCS (single-level diagnosis),133,Other lower respiratory disease,—
+Condition,CCS|134,CCS (single-level diagnosis),134,Other upper respiratory disease,—
+Condition,CCS|135,CCS (single-level diagnosis),135,Intestinal infection,—
+Condition,CCS|136,CCS (single-level diagnosis),136,Disorders of teeth and jaw,—
+Condition,CCS|137,CCS (single-level diagnosis),137,Diseases of mouth excluding dental,—
+Condition,CCS|138,CCS (single-level diagnosis),138,Esophageal disorders,—
+Condition,CCS|139,CCS (single-level diagnosis),139,Gastroduodenal ulcer (except hemorrhage),—
+Condition,CCS|140,CCS (single-level diagnosis),140,Gastritis and duodenitis,—
+Condition,CCS|141,CCS (single-level diagnosis),141,Other disorders of stomach and duodenum,—
+Condition,CCS|142,CCS (single-level diagnosis),142,Appendicitis and other appendiceal conditions,—
+Condition,CCS|143,CCS (single-level diagnosis),143,Abdominal hernia,—
+Condition,CCS|144,CCS (single-level diagnosis),144,Regional enteritis and ulcerative colitis,—
+Condition,CCS|145,CCS (single-level diagnosis),145,Intestinal obstruction without hernia,—
+Condition,CCS|146,CCS (single-level diagnosis),146,Diverticulosis and diverticulitis,—
+Condition,CCS|147,CCS (single-level diagnosis),147,Anal and rectal conditions,—
+Condition,CCS|148,CCS (single-level diagnosis),148,Peritonitis and intestinal abscess,—
+Condition,CCS|149,CCS (single-level diagnosis),149,Biliary tract disease,—
+Condition,CCS|151,CCS (single-level diagnosis),151,Other liver diseases,—
+Condition,CCS|152,CCS (single-level diagnosis),152,Pancreatic disorders (not diabetes),—
+Condition,CCS|153,CCS (single-level diagnosis),153,Gastrointestinal hemorrhage,—
+Condition,CCS|154,CCS (single-level diagnosis),154,Noninfectious gastroenteritis,—
+Condition,CCS|155,CCS (single-level diagnosis),155,Other gastrointestinal disorders,—
+Condition,CCS|156,CCS (single-level diagnosis),156,Nephritis nephrosis renal sclerosis,—
+Condition,CCS|158,CCS (single-level diagnosis),158,Chronic renal failure,—
+Condition,CCS|159,CCS (single-level diagnosis),159,Urinary tract infections,—
+Condition,CCS|160,CCS (single-level diagnosis),160,Calculus of urinary tract,—
+Condition,CCS|161,CCS (single-level diagnosis),161,Other diseases of kidney and ureters,—
+Condition,CCS|162,CCS (single-level diagnosis),162,Other diseases of bladder and urethra,—
+Condition,CCS|163,CCS (single-level diagnosis),163,Genitourinary symptoms and ill-defined conditions,—
+Condition,CCS|164,CCS (single-level diagnosis),164,Hyperplasia of prostate,—
+Condition,CCS|165,CCS (single-level diagnosis),165,Inflammatory conditions of male genital organs,—
+Condition,CCS|166,CCS (single-level diagnosis),166,Other male genital disorders,—
+Condition,CCS|167,CCS (single-level diagnosis),167,Nonmalignant breast conditions,—
+Condition,CCS|168,CCS (single-level diagnosis),168,Inflammatory diseases of female pelvic organs,—
+Condition,CCS|169,CCS (single-level diagnosis),169,Endometriosis,—
+Condition,CCS|170,CCS (single-level diagnosis),170,Prolapse of female genital organs,—
+Condition,CCS|171,CCS (single-level diagnosis),171,Menstrual disorders,—
+Condition,CCS|172,CCS (single-level diagnosis),172,Ovarian cyst,—
+Condition,CCS|173,CCS (single-level diagnosis),173,Menopausal disorders,—
+Condition,CCS|174,CCS (single-level diagnosis),174,Female infertility,—
+Condition,CCS|175,CCS (single-level diagnosis),175,Other female genital disorders,—
+Condition,CCS|176,CCS (single-level diagnosis),176,Contraceptive and procreative management,—
+Condition,CCS|177,CCS (single-level diagnosis),177,Spontaneous abortion,—
+Condition,CCS|178,CCS (single-level diagnosis),178,Induced abortion,—
+Condition,CCS|179,CCS (single-level diagnosis),179,Postabortion complications,—
+Condition,CCS|180,CCS (single-level diagnosis),180,Ectopic pregnancy,—
+Condition,CCS|181,CCS (single-level diagnosis),181,Other complications of pregnancy,—
+Condition,CCS|182,CCS (single-level diagnosis),182,Hemorrhage during pregnancy abruptio placenta placenta previa,—
+Condition,CCS|183,CCS (single-level diagnosis),183,Hypertension complicating pregnancy childbirth and the puerperium,—
+Condition,CCS|184,CCS (single-level diagnosis),184,Early or threatened labor,—
+Condition,CCS|185,CCS (single-level diagnosis),185,Prolonged pregnancy,—
+Condition,CCS|186,CCS (single-level diagnosis),186,Diabetes complicating pregnancy or birth,—
+Condition,CCS|187,CCS (single-level diagnosis),187,Malposition malpresentation,—
+Condition,CCS|188,CCS (single-level diagnosis),188,Fetopelvic disproportion obstruction,—
+Condition,CCS|189,CCS (single-level diagnosis),189,Previous C-section,—
+Condition,CCS|190,CCS (single-level diagnosis),190,Fetal distress and abnormal forces of labor,—
+Condition,CCS|191,CCS (single-level diagnosis),191,Polyhydramnios and other problems of amniotic cavity,—
+Condition,CCS|192,CCS (single-level diagnosis),192,Umbilical cord complication,—
+Condition,CCS|193,CCS (single-level diagnosis),193,Trauma to perineum and vulva,—
+Condition,CCS|194,CCS (single-level diagnosis),194,Forceps delivery,—
+Condition,CCS|195,CCS (single-level diagnosis),195,Other complications of birth,—
+Condition,CCS|196,CCS (single-level diagnosis),196,Normal pregnancy and/or delivery,—
+Condition,CCS|197,CCS (single-level diagnosis),197,Skin and subcutaneous tissue infections,—
+Condition,CCS|198,CCS (single-level diagnosis),198,Other inflammatory condition of skin,—
+Condition,CCS|199,CCS (single-level diagnosis),199,Chronic ulcer of skin,—
+Condition,CCS|200,CCS (single-level diagnosis),200,Other skin disorders,—
+Condition,CCS|201,CCS (single-level diagnosis),201,Infective arthritis and osteomyelitis,—
+Condition,CCS|202,CCS (single-level diagnosis),202,Rheumatoid arthritis and related disease,—
+Condition,CCS|203,CCS (single-level diagnosis),203,Osteoarthritis,—
+Condition,CCS|204,CCS (single-level diagnosis),204,Other non-traumatic joint disorders,—
+Condition,CCS|205,CCS (single-level diagnosis),205,Spondylosis intervertebral disc disorders back problems,—
+Condition,CCS|206,CCS (single-level diagnosis),206,Osteoporosis,—
+Condition,CCS|207,CCS (single-level diagnosis),207,Pathological fracture,—
+Condition,CCS|208,CCS (single-level diagnosis),208,Acquired foot deformities,—
+Condition,CCS|209,CCS (single-level diagnosis),209,Other acquired deformities,—
+Condition,CCS|210,CCS (single-level diagnosis),210,Systemic lupus erythematosus and connective tissue disorders,—
+Condition,CCS|211,CCS (single-level diagnosis),211,Other connective tissue disease,—
+Condition,CCS|212,CCS (single-level diagnosis),212,Other bone disease and musculoskeletal deformities,—
+Condition,CCS|213,CCS (single-level diagnosis),213,Cardiac and circulatory congenital anomalies,—
+Condition,CCS|214,CCS (single-level diagnosis),214,Digestive congenital anomalies,—
+Condition,CCS|215,CCS (single-level diagnosis),215,Genitourinary congenital anomalies,—
+Condition,CCS|216,CCS (single-level diagnosis),216,Nervous system congenital anomalies,—
+Condition,CCS|217,CCS (single-level diagnosis),217,Other congenital anomalies,—
+Condition,CCS|218,CCS (single-level diagnosis),218,Liveborn,—
+Condition,CCS|219,CCS (single-level diagnosis),219,Short gestation L.B.Wt and fetal growth retardation,—
+Condition,CCS|220,CCS (single-level diagnosis),220,Intrauterine hypoxia and birth asphyxia,—
+Condition,CCS|221,CCS (single-level diagnosis),221,Respiratory distress syndrome,—
+Condition,CCS|222,CCS (single-level diagnosis),222,Hemolytic jaundice and perinatal jaundice,—
+Condition,CCS|223,CCS (single-level diagnosis),223,Birth trauma,—
+Condition,CCS|224,CCS (single-level diagnosis),224,Other perinatal conditions,—
+Condition,CCS|225,CCS (single-level diagnosis),225,Joint disorders and dislocations trauma-related,—
+Condition,CCS|226,CCS (single-level diagnosis),226,Fracture of neck of femur (hip),—
+Condition,CCS|227,CCS (single-level diagnosis),227,Spinal cord injury,—
+Condition,CCS|228,CCS (single-level diagnosis),228,Skull and face fractures,—
+Condition,CCS|229,CCS (single-level diagnosis),229,Fracture of upper limb,—
+Condition,CCS|230,CCS (single-level diagnosis),230,Fracture of lower limb,—
+Condition,CCS|231,CCS (single-level diagnosis),231,Other fractures,—
+Condition,CCS|232,CCS (single-level diagnosis),232,Sprains and strains,—
+Condition,CCS|233,CCS (single-level diagnosis),233,Intracranial injury,—
+Condition,CCS|234,CCS (single-level diagnosis),234,Crushing injury or internal injury,—
+Condition,CCS|235,CCS (single-level diagnosis),235,Open wounds of head neck and trunk,—
+Condition,CCS|236,CCS (single-level diagnosis),236,Open wounds of extremities,—
+Condition,CCS|237,CCS (single-level diagnosis),237,Complication of device implant or graft,—
+Condition,CCS|238,CCS (single-level diagnosis),238,Complications of surgical procedures or medical care,—
+Condition,CCS|239,CCS (single-level diagnosis),239,Superficial injury contusion,—
+Condition,CCS|240,CCS (single-level diagnosis),240,Burns,—
+Condition,CCS|241,CCS (single-level diagnosis),241,Poisoning by psychotropic agents,—
+Condition,CCS|242,CCS (single-level diagnosis),242,Poisoning by other medications and drugs,—
+Condition,CCS|243,CCS (single-level diagnosis),243,Poisoning by nonmedicinal substances,—
+Condition,CCS|244,CCS (single-level diagnosis),244,Other injuries and conditions due to external causes,—
+Condition,CCS|245,CCS (single-level diagnosis),245,Syncope,—
+Condition,CCS|246,CCS (single-level diagnosis),246,Fever of unknown origin,—
+Condition,CCS|247,CCS (single-level diagnosis),247,Lymphadenitis,—
+Condition,CCS|248,CCS (single-level diagnosis),248,Gangrene,—
+Condition,CCS|249,CCS (single-level diagnosis),249,Shock,—
+Condition,CCS|250,CCS (single-level diagnosis),250,Nausea and vomiting,—
+Condition,CCS|251,CCS (single-level diagnosis),251,Abdominal pain,—
+Condition,CCS|252,CCS (single-level diagnosis),252,Malaise and fatigue,—
+Condition,CCS|253,CCS (single-level diagnosis),253,Allergic reactions,—
+Condition,CCS|254,CCS (single-level diagnosis),254,Rehabilitation care fitting of prostheses,—
+Condition,CCS|255,CCS (single-level diagnosis),255,Administrative/social admission,—
+Condition,CCS|256,CCS (single-level diagnosis),256,Medical examination/evaluation,—
+Condition,CCS|257,CCS (single-level diagnosis),257,Other aftercare,—
+Condition,CCS|258,CCS (single-level diagnosis),258,Other screening for suspected conditions,—
+Condition,CCS|259,CCS (single-level diagnosis),259,Residual codes unclassified,—
+Condition,COND_OTHERS,Other bucket,—,Any condition whose CCS category is outside the retained CCS set,—
+Medication,RXCUI|161,RxNorm ingredient (RxCUI),161,acetaminophen,Start/end as event type
+Medication,RXCUI|197,RxNorm ingredient (RxCUI),197,acetylcysteine,Start/end as event type
+Medication,RXCUI|435,RxNorm ingredient (RxCUI),435,albuterol,Start/end as event type
+Medication,RXCUI|620,RxNorm ingredient (RxCUI),620,amantadine,Start/end as event type
+Medication,RXCUI|723,RxNorm ingredient (RxCUI),723,amoxicillin,Start/end as event type
+Medication,RXCUI|733,RxNorm ingredient (RxCUI),733,ampicillin,Start/end as event type
+Medication,RXCUI|1151,RxNorm ingredient (RxCUI),1151,ascorbic acid,Start/end as event type
+Medication,RXCUI|1191,RxNorm ingredient (RxCUI),1191,aspirin,Start/end as event type
+Medication,RXCUI|1223,RxNorm ingredient (RxCUI),1223,atropine,Start/end as event type
+Medication,RXCUI|1291,RxNorm ingredient (RxCUI),1291,bacitracin,Start/end as event type
+Medication,RXCUI|1292,RxNorm ingredient (RxCUI),1292,baclofen,Start/end as event type
+Medication,RXCUI|1399,RxNorm ingredient (RxCUI),1399,benzocaine,Start/end as event type
+Medication,RXCUI|1596,RxNorm ingredient (RxCUI),1596,bisacodyl,Start/end as event type
+Medication,RXCUI|1815,RxNorm ingredient (RxCUI),1815,bupivacaine,Start/end as event type
+Medication,RXCUI|1897,RxNorm ingredient (RxCUI),1897,calcium carbonate,Start/end as event type
+Medication,RXCUI|1998,RxNorm ingredient (RxCUI),1998,captopril,Start/end as event type
+Medication,RXCUI|2019,RxNorm ingredient (RxCUI),2019,carbidopa,Start/end as event type
+Medication,RXCUI|2180,RxNorm ingredient (RxCUI),2180,cefazolin,Start/end as event type
+Medication,RXCUI|2189,RxNorm ingredient (RxCUI),2189,cefoxitin,Start/end as event type
+Medication,RXCUI|2193,RxNorm ingredient (RxCUI),2193,ceftriaxone,Start/end as event type
+Medication,RXCUI|2231,RxNorm ingredient (RxCUI),2231,cephalexin,Start/end as event type
+Medication,RXCUI|2358,RxNorm ingredient (RxCUI),2358,chlorhexidine,Start/end as event type
+Medication,RXCUI|2418,RxNorm ingredient (RxCUI),2418,cholecalciferol,Start/end as event type
+Medication,RXCUI|2551,RxNorm ingredient (RxCUI),2551,ciprofloxacin,Start/end as event type
+Medication,RXCUI|2582,RxNorm ingredient (RxCUI),2582,clindamycin,Start/end as event type
+Medication,RXCUI|2599,RxNorm ingredient (RxCUI),2599,clonidine,Start/end as event type
+Medication,RXCUI|2670,RxNorm ingredient (RxCUI),2670,codeine,Start/end as event type
+Medication,RXCUI|3264,RxNorm ingredient (RxCUI),3264,dexamethasone,Start/end as event type
+Medication,RXCUI|3322,RxNorm ingredient (RxCUI),3322,diazepam,Start/end as event type
+Medication,RXCUI|3355,RxNorm ingredient (RxCUI),3355,diclofenac,Start/end as event type
+Medication,RXCUI|3423,RxNorm ingredient (RxCUI),3423,hydromorphone,Start/end as event type
+Medication,RXCUI|3498,RxNorm ingredient (RxCUI),3498,diphenhydramine,Start/end as event type
+Medication,RXCUI|3500,RxNorm ingredient (RxCUI),3500,diphenoxylate,Start/end as event type
+Medication,RXCUI|3966,RxNorm ingredient (RxCUI),3966,ephedrine,Start/end as event type
+Medication,RXCUI|3992,RxNorm ingredient (RxCUI),3992,epinephrine,Start/end as event type
+Medication,RXCUI|4053,RxNorm ingredient (RxCUI),4053,erythromycin,Start/end as event type
+Medication,RXCUI|4278,RxNorm ingredient (RxCUI),4278,famotidine,Start/end as event type
+Medication,RXCUI|4337,RxNorm ingredient (RxCUI),4337,fentanyl,Start/end as event type
+Medication,RXCUI|4457,RxNorm ingredient (RxCUI),4457,flumazenil,Start/end as event type
+Medication,RXCUI|4511,RxNorm ingredient (RxCUI),4511,folic acid,Start/end as event type
+Medication,RXCUI|4603,RxNorm ingredient (RxCUI),4603,furosemide,Start/end as event type
+Medication,RXCUI|4850,RxNorm ingredient (RxCUI),4850,glucose,Start/end as event type
+Medication,RXCUI|5224,RxNorm ingredient (RxCUI),5224,heparin,Start/end as event type
+Medication,RXCUI|5470,RxNorm ingredient (RxCUI),5470,hydralazine,Start/end as event type
+Medication,RXCUI|5487,RxNorm ingredient (RxCUI),5487,hydrochlorothiazide,Start/end as event type
+Medication,RXCUI|5489,RxNorm ingredient (RxCUI),5489,hydrocodone,Start/end as event type
+Medication,RXCUI|5492,RxNorm ingredient (RxCUI),5492,hydrocortisone,Start/end as event type
+Medication,RXCUI|5640,RxNorm ingredient (RxCUI),5640,ibuprofen,Start/end as event type
+Medication,RXCUI|5956,RxNorm ingredient (RxCUI),5956,iohexol,Start/end as event type
+Medication,RXCUI|6130,RxNorm ingredient (RxCUI),6130,ketamine,Start/end as event type
+Medication,RXCUI|6185,RxNorm ingredient (RxCUI),6185,labetalol,Start/end as event type
+Medication,RXCUI|6218,RxNorm ingredient (RxCUI),6218,lactulose,Start/end as event type
+Medication,RXCUI|6375,RxNorm ingredient (RxCUI),6375,levodopa,Start/end as event type
+Medication,RXCUI|6387,RxNorm ingredient (RxCUI),6387,lidocaine,Start/end as event type
+Medication,RXCUI|6470,RxNorm ingredient (RxCUI),6470,lorazepam,Start/end as event type
+Medication,RXCUI|6572,RxNorm ingredient (RxCUI),6572,mafenide,Start/end as event type
+Medication,RXCUI|6585,RxNorm ingredient (RxCUI),6585,magnesium sulfate,Start/end as event type
+Medication,RXCUI|6711,RxNorm ingredient (RxCUI),6711,melatonin,Start/end as event type
+Medication,RXCUI|6813,RxNorm ingredient (RxCUI),6813,methadone,Start/end as event type
+Medication,RXCUI|6845,RxNorm ingredient (RxCUI),6845,methocarbamol,Start/end as event type
+Medication,RXCUI|6883,RxNorm ingredient (RxCUI),6883,methylergonovine,Start/end as event type
+Medication,RXCUI|6915,RxNorm ingredient (RxCUI),6915,metoclopramide,Start/end as event type
+Medication,RXCUI|6918,RxNorm ingredient (RxCUI),6918,metoprolol,Start/end as event type
+Medication,RXCUI|6922,RxNorm ingredient (RxCUI),6922,metronidazole,Start/end as event type
+Medication,RXCUI|6960,RxNorm ingredient (RxCUI),6960,midazolam,Start/end as event type
+Medication,RXCUI|6963,RxNorm ingredient (RxCUI),6963,midodrine,Start/end as event type
+Medication,RXCUI|7052,RxNorm ingredient (RxCUI),7052,morphine,Start/end as event type
+Medication,RXCUI|7213,RxNorm ingredient (RxCUI),7213,ipratropium,Start/end as event type
+Medication,RXCUI|7242,RxNorm ingredient (RxCUI),7242,naloxone,Start/end as event type
+Medication,RXCUI|7258,RxNorm ingredient (RxCUI),7258,naproxen,Start/end as event type
+Medication,RXCUI|7315,RxNorm ingredient (RxCUI),7315,neostigmine,Start/end as event type
+Medication,RXCUI|7417,RxNorm ingredient (RxCUI),7417,nifedipine,Start/end as event type
+Medication,RXCUI|7426,RxNorm ingredient (RxCUI),7426,nimodipine,Start/end as event type
+Medication,RXCUI|7512,RxNorm ingredient (RxCUI),7512,norepinephrine,Start/end as event type
+Medication,RXCUI|7597,RxNorm ingredient (RxCUI),7597,nystatin,Start/end as event type
+Medication,RXCUI|7779,RxNorm ingredient (RxCUI),7779,oxandrolone,Start/end as event type
+Medication,RXCUI|7804,RxNorm ingredient (RxCUI),7804,oxycodone,Start/end as event type
+Medication,RXCUI|7824,RxNorm ingredient (RxCUI),7824,oxytocin,Start/end as event type
+Medication,RXCUI|7980,RxNorm ingredient (RxCUI),7980,penicillin G,Start/end as event type
+Medication,RXCUI|8163,RxNorm ingredient (RxCUI),8163,phenylephrine,Start/end as event type
+Medication,RXCUI|8339,RxNorm ingredient (RxCUI),8339,piperacillin,Start/end as event type
+Medication,RXCUI|8516,RxNorm ingredient (RxCUI),8516,polyethylene glycols,Start/end as event type
+Medication,RXCUI|8536,RxNorm ingredient (RxCUI),8536,polymyxin B,Start/end as event type
+Medication,RXCUI|8591,RxNorm ingredient (RxCUI),8591,potassium chloride,Start/end as event type
+Medication,RXCUI|8638,RxNorm ingredient (RxCUI),8638,prednisolone,Start/end as event type
+Medication,RXCUI|8745,RxNorm ingredient (RxCUI),8745,promethazine,Start/end as event type
+Medication,RXCUI|8782,RxNorm ingredient (RxCUI),8782,propofol,Start/end as event type
+Medication,RXCUI|8787,RxNorm ingredient (RxCUI),8787,propranolol,Start/end as event type
+Medication,RXCUI|9601,RxNorm ingredient (RxCUI),9601,scopolamine,Start/end as event type
+Medication,RXCUI|9793,RxNorm ingredient (RxCUI),9793,silver sulfadiazine,Start/end as event type
+Medication,RXCUI|9796,RxNorm ingredient (RxCUI),9796,simethicone,Start/end as event type
+Medication,RXCUI|9863,RxNorm ingredient (RxCUI),9863,sodium chloride,Start/end as event type
+Medication,RXCUI|10154,RxNorm ingredient (RxCUI),10154,succinylcholine,Start/end as event type
+Medication,RXCUI|10156,RxNorm ingredient (RxCUI),10156,sucralfate,Start/end as event type
+Medication,RXCUI|10167,RxNorm ingredient (RxCUI),10167,sulbactam,Start/end as event type
+Medication,RXCUI|10180,RxNorm ingredient (RxCUI),10180,sulfamethoxazole,Start/end as event type
+Medication,RXCUI|10402,RxNorm ingredient (RxCUI),10402,dronabinol,Start/end as event type
+Medication,RXCUI|10582,RxNorm ingredient (RxCUI),10582,levothyroxine,Start/end as event type
+Medication,RXCUI|10689,RxNorm ingredient (RxCUI),10689,tramadol,Start/end as event type
+Medication,RXCUI|10691,RxNorm ingredient (RxCUI),10691,tranexamic acid,Start/end as event type
+Medication,RXCUI|10737,RxNorm ingredient (RxCUI),10737,trazodone,Start/end as event type
+Medication,RXCUI|11124,RxNorm ingredient (RxCUI),11124,vancomycin,Start/end as event type
+Medication,RXCUI|11295,RxNorm ingredient (RxCUI),11295,water,Start/end as event type
+Medication,RXCUI|17128,RxNorm ingredient (RxCUI),17128,lansoprazole,Start/end as event type
+Medication,RXCUI|17767,RxNorm ingredient (RxCUI),17767,amlodipine,Start/end as event type
+Medication,RXCUI|18631,RxNorm ingredient (RxCUI),18631,azithromycin,Start/end as event type
+Medication,RXCUI|19831,RxNorm ingredient (RxCUI),19831,budesonide,Start/end as event type
+Medication,RXCUI|20352,RxNorm ingredient (RxCUI),20352,carvedilol,Start/end as event type
+Medication,RXCUI|20481,RxNorm ingredient (RxCUI),20481,cefepime,Start/end as event type
+Medication,RXCUI|21183,RxNorm ingredient (RxCUI),21183,citric acid,Start/end as event type
+Medication,RXCUI|24947,RxNorm ingredient (RxCUI),24947,ferrous sulfate,Start/end as event type
+Medication,RXCUI|25480,RxNorm ingredient (RxCUI),25480,gabapentin,Start/end as event type
+Medication,RXCUI|26225,RxNorm ingredient (RxCUI),26225,ondansetron,Start/end as event type
+Medication,RXCUI|26344,RxNorm ingredient (RxCUI),26344,guar gum,Start/end as event type
+Medication,RXCUI|29046,RxNorm ingredient (RxCUI),29046,lisinopril,Start/end as event type
+Medication,RXCUI|29561,RxNorm ingredient (RxCUI),29561,meropenem,Start/end as event type
+Medication,RXCUI|35629,RxNorm ingredient (RxCUI),35629,LACTATED RINGER'S,Start/end as event type
+Medication,RXCUI|35636,RxNorm ingredient (RxCUI),35636,risperidone,Start/end as event type
+Medication,RXCUI|35780,RxNorm ingredient (RxCUI),35780,ropivacaine,Start/end as event type
+Medication,RXCUI|35827,RxNorm ingredient (RxCUI),35827,ketorolac,Start/end as event type
+Medication,RXCUI|36387,RxNorm ingredient (RxCUI),36387,"sennosides, USP",Start/end as event type
+Medication,RXCUI|36437,RxNorm ingredient (RxCUI),36437,sertraline,Start/end as event type
+Medication,RXCUI|37617,RxNorm ingredient (RxCUI),37617,tazobactam,Start/end as event type
+Medication,RXCUI|40254,RxNorm ingredient (RxCUI),40254,valproate,Start/end as event type
+Medication,RXCUI|40790,RxNorm ingredient (RxCUI),40790,pantoprazole,Start/end as event type
+Medication,RXCUI|41126,RxNorm ingredient (RxCUI),41126,fluticasone,Start/end as event type
+Medication,RXCUI|42331,RxNorm ingredient (RxCUI),42331,misoprostol,Start/end as event type
+Medication,RXCUI|42372,RxNorm ingredient (RxCUI),42372,mupirocin,Start/end as event type
+Medication,RXCUI|48203,RxNorm ingredient (RxCUI),48203,clavulanate,Start/end as event type
+Medication,RXCUI|48937,RxNorm ingredient (RxCUI),48937,dexmedetomidine,Start/end as event type
+Medication,RXCUI|51272,RxNorm ingredient (RxCUI),51272,quetiapine,Start/end as event type
+Medication,RXCUI|52175,RxNorm ingredient (RxCUI),52175,losartan,Start/end as event type
+Medication,RXCUI|56466,RxNorm ingredient (RxCUI),56466,sodium citrate,Start/end as event type
+Medication,RXCUI|67108,RxNorm ingredient (RxCUI),67108,enoxaparin,Start/end as event type
+Medication,RXCUI|68139,RxNorm ingredient (RxCUI),68139,rocuronium,Start/end as event type
+Medication,RXCUI|72625,RxNorm ingredient (RxCUI),72625,duloxetine,Start/end as event type
+Medication,RXCUI|77492,RxNorm ingredient (RxCUI),77492,tamsulosin,Start/end as event type
+Medication,RXCUI|82003,RxNorm ingredient (RxCUI),82003,docusate,Start/end as event type
+Medication,RXCUI|82039,RxNorm ingredient (RxCUI),82039,LUBRICANT,Start/end as event type
+Medication,RXCUI|83367,RxNorm ingredient (RxCUI),83367,atorvastatin,Start/end as event type
+Medication,RXCUI|86009,RxNorm ingredient (RxCUI),86009,insulin lispro,Start/end as event type
+Medication,RXCUI|89905,RxNorm ingredient (RxCUI),89905,MULTIVITAMINS,Start/end as event type
+Medication,RXCUI|100278,RxNorm ingredient (RxCUI),100278,Lacticaseibacillus rhamnosus,Start/end as event type
+Medication,RXCUI|114477,RxNorm ingredient (RxCUI),114477,levetiracetam,Start/end as event type
+Medication,RXCUI|140587,RxNorm ingredient (RxCUI),140587,celecoxib,Start/end as event type
+Medication,RXCUI|187832,RxNorm ingredient (RxCUI),187832,pregabalin,Start/end as event type
+Medication,RXCUI|214794,RxNorm ingredient (RxCUI),214794,POTASSIUM PHOSPHATE/SODIUM PHOSPHATE,Start/end as event type
+Medication,RXCUI|218488,RxNorm ingredient (RxCUI),218488,Multivitamins with minerals,Start/end as event type
+Medication,RXCUI|219376,RxNorm ingredient (RxCUI),219376,PROPRIETARY,Start/end as event type
+Medication,RXCUI|221147,RxNorm ingredient (RxCUI),221147,polyethylene glycol 3350,Start/end as event type
+Medication,RXCUI|274783,RxNorm ingredient (RxCUI),274783,insulin glargine,Start/end as event type
+Medication,RXCUI|284960,RxNorm ingredient (RxCUI),284960,JUVEN,Start/end as event type
+Medication,RXCUI|316422,RxNorm ingredient (RxCUI),316422,oxycodone 5 MG,Start/end as event type
+Medication,RXCUI|330437,RxNorm ingredient (RxCUI),330437,dexamethasone 4 MG/ML,Start/end as event type
+Medication,RXCUI|330495,RxNorm ingredient (RxCUI),330495,propranolol 20 MG,Start/end as event type
+Medication,RXCUI|402578,RxNorm ingredient (RxCUI),402578,PROPRIETARY,Start/end as event type
+Medication,RXCUI|440481,RxNorm ingredient (RxCUI),440481,ketorolac 30 MG,Start/end as event type
+Medication,RXCUI|735714,RxNorm ingredient (RxCUI),735714,PROPRIETARY,Start/end as event type
+Medication,RXCUI|796300,RxNorm ingredient (RxCUI),796300,cefazolin 100 MG/ML,Start/end as event type
+Medication,RXCUI|828529,RxNorm ingredient (RxCUI),828529,"albumin human, USP",Start/end as event type
+Medication,RXCUI|1546438,RxNorm ingredient (RxCUI),1546438,glycopyrronium,Start/end as event type
+Medication,RXCUI|1597488,RxNorm ingredient (RxCUI),1597488,PROPRIETARY,Start/end as event type
+Medication,RXCUI|1597609,RxNorm ingredient (RxCUI),1597609,ceftolozane,Start/end as event type
+Medication,RXCUI|1609231,RxNorm ingredient (RxCUI),1609231,PROPRIETARY,Start/end as event type
+Medication,RXCUI|1726988,RxNorm ingredient (RxCUI),1726988,sugammadex,Start/end as event type
+Medication,MED_OTHERS,Other bucket,—,Any medication whose RxCUI is outside the retained medication list,—
+Measurement,LAB|1004025,OMOP Measurement concept,1004025,Heart rate,"Measured value (beats/min), z-scored"
+Measurement,LAB|3000905,OMOP Measurement concept,3000905,Leukocytes [#/volume] in Blood by Automated count,"Measured value (10^3/µL), z-scored"
+Measurement,LAB|3000963,OMOP Measurement concept,3000963,Hemoglobin [Mass/volume] in Blood,"Measured value (g/dL), z-scored"
+Measurement,LAB|3004249,OMOP Measurement concept,3004249,Systolic blood pressure,"Measured value (mmHg), z-scored"
+Measurement,LAB|3004501,OMOP Measurement concept,3004501,Glucose [Mass/volume] in Serum or Plasma,"Measured value (mg/dL), z-scored"
+Measurement,LAB|3005424,OMOP Measurement concept,3005424,Body surface area,"Measured value (m²), z-scored"
+Measurement,LAB|3006906,OMOP Measurement concept,3006906,Calcium [Mass/volume] in Serum or Plasma,"Measured value (mg/dL), z-scored"
+Measurement,LAB|3012888,OMOP Measurement concept,3012888,Diastolic blood pressure,"Measured value (mmHg), z-scored"
+Measurement,LAB|3013682,OMOP Measurement concept,3013682,Urea nitrogen [Mass/volume] in Serum or Plasma,"Measured value (mg/dL), z-scored"
+Measurement,LAB|3014576,OMOP Measurement concept,3014576,Chloride [Moles/volume] in Serum or Plasma,"Measured value (mmol/L), z-scored"
+Measurement,LAB|3015632,OMOP Measurement concept,3015632,"Carbon dioxide, total [Moles/volume] in Serum or Plasma","Measured value (mmol/L), z-scored"
+Measurement,LAB|3016723,OMOP Measurement concept,3016723,Creatinine [Mass/volume] in Serum or Plasma,"Measured value (mg/dL), z-scored"
+Measurement,LAB|3019550,OMOP Measurement concept,3019550,Sodium [Moles/volume] in Serum or Plasma,"Measured value (mmol/L), z-scored"
+Measurement,LAB|3020891,OMOP Measurement concept,3020891,Body temperature,"Measured value (°F), z-scored"
+Measurement,LAB|3023103,OMOP Measurement concept,3023103,Potassium [Moles/volume] in Serum or Plasma,"Measured value (mmol/L), z-scored"
+Measurement,LAB|3023314,OMOP Measurement concept,3023314,Hematocrit [Volume Fraction] of Blood by Automated count,"Measured value (%), z-scored"
+Measurement,LAB|3024561,OMOP Measurement concept,3024561,Albumin [Mass/volume] in Serum or Plasma,"Measured value (g/dL), z-scored"
+Measurement,LAB|3024929,OMOP Measurement concept,3024929,Platelets [#/volume] in Blood by Automated count,"Measured value (10^3/µL), z-scored"
+Measurement,LAB|3025315,OMOP Measurement concept,3025315,Body weight,"Measured value (lb), z-scored"
+Measurement,LAB|3036277,OMOP Measurement concept,3036277,Body height,"Measured value (in), z-scored"
+Measurement,LAB|3038553,OMOP Measurement concept,3038553,Body mass index (BMI) [Ratio],"Measured value (kg/m²), z-scored"
+Measurement,LAB_OTHERS,Other bucket,—,Any laboratory/vital-sign measurement outside the retained measurement list,"Measured value, z-scored"

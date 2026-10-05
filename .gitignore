@@ -1,0 +1,33 @@
+# Patient-level data and derived arrays: never commit
+data/*
+!data/README.md
+!data/ccs_codes.csv
+!data/ccs_codes.json
+!data/snomed_procedure_names.json
+!data/procedure_region_map.json
+!data/rxcui_to_name.csv
+!data/top90_rxcuis.json
+!data/lab_codes.json
+!data/lab_concept_names.json
+*.jsonl
+*.npz
+*.npy
+*.pkl
+*.parquet
+
+# Training outputs, checkpoints, logs
+result/
+code/model2/logs/
+wandb/
+*.pt
+*.pth
+*.ckpt
+*.log
+
+# Python / editor
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.ipynb
+.env
+.DS_Store

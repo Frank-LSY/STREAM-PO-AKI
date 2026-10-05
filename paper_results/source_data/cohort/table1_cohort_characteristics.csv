@@ -1,0 +1,21 @@
+characteristic,train_val_negative,train_val_positive,test_negative,test_positive
+N,"135,393","8,147","21,167","2,371"
+Gender — Female,"95,478","3,371","14,736",984
+Gender — Male,"39,915","4,776","6,431","1,387"
+Gender — Missing,0,0,0,0
+Age at Surgery,"47 (32, 65)","65 (52, 75)","45 (32, 65)","68 (54, 78)"
+Race — White,"67,434","3,765","9,211","1,018"
+Race — African American,"25,252","1,989","4,113",512
+Race — Asian,"5,177",243,"1,112",149
+Race — Others,436,11,79,10
+Race — Unknown,"37,094","2,139","6,652",682
+Surgery Types — Abdominal,"89,860","5,235","15,329","1,581"
+Surgery Types — Intracranial,"2,417",376,497,100
+Surgery Types — Thoracic,"2,790",462,490,144
+Surgery Types — Joint,"28,361","1,122","2,895",249
+Surgery Types — Spinal,"9,908",599,"1,686",218
+Surgery Types — Skin,"2,057",353,270,79
+Surgery Types — Other/Unknown,0,0,0,0
+Average Events — Conditions,28.28,65.42,41.19,82.82
+Average Events — Medications,34.65,312.18,34.04,261.37
+Average Events — Lab Tests,2.64,1.29,4.54,2.35
