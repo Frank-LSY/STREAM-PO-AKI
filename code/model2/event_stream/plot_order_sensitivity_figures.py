@@ -24,6 +24,9 @@ ES_CKPT = ROOT / "result/event_stream/transformer/fold1/best_model.pt"
 TEST_JSONL = ROOT / "data/five_folds_deduplicate4/7d_window_clm.mixed.test.jsonl"
 RED, BLUE = "#c0392b", "#1f6cb0"
 GRAY = "0.45"
+# Case streams: avoid classic red/blue pairing (easy to misread as partisan).
+ORIG_COL = "#0f766e"  # teal
+REV_COL = "#a16207"   # ochre
 CASE_PATH_DATA = OUT / "case_path_data.json"
 T_LABS = ["0\u20136 h", "6\u201324 h", "24\u201372 h", "72 h\u20137 d"]
 K_LABS = ["3\u20134", "5\u20138", "9\u201316", "17\u201332", "\u226533"]
@@ -390,14 +393,79 @@ def fig_e_joint_k_time(es: pd.DataFrame, out: Path) -> Dict[str, Any]:
 
 
 def _load_episode(pid: str) -> Dict[str, Any]:
+    return _load_episodes([pid])[str(pid)]
+
+
+def _load_episodes(pids: Sequence[Any]) -> Dict[str, Dict[str, Any]]:
     import sys
     sys.path.insert(0, str(ROOT / "code/model2"))
     from event_stream.dataset import load_episode_jsonl
 
+    want = {str(p) for p in pids}
+    # Also accept integer-normalized forms.
+    want |= {str(int(float(p))) for p in pids if str(p).replace(".", "", 1).isdigit()}
+    out: Dict[str, Dict[str, Any]] = {}
     for ep in load_episode_jsonl(TEST_JSONL):
-        if str(ep.get("person_id")) == str(pid):
-            return ep
-    raise KeyError(pid)
+        key = str(ep.get("person_id"))
+        keys = {key}
+        if key.replace(".", "", 1).isdigit():
+            keys.add(str(int(float(key))))
+        hit = keys & want
+        if not hit:
+            continue
+        for k in hit:
+            out[k] = ep
+        if len(out) >= len(want):
+            break
+    missing = want - set(out)
+    if missing:
+        raise KeyError(f"episodes not found: {sorted(missing)[:5]}")
+    return out
+
+
+def _postop_hours(episode: Dict[str, Any]) -> List[float]:
+    hrs = []
+    for ev in episode.get("events") or []:
+        th = ev.get("time_hour")
+        if th is None:
+            continue
+        thf = float(th)
+        if thf < 0 or str(ev.get("modality", "")).lower() == "procedure":
+            continue
+        hrs.append(thf)
+    return hrs
+
+
+def _aki_hours_postop(episode: Dict[str, Any]) -> Optional[float]:
+    """Hours from index surgery (t0) to real AKI onset, or None if unlabeled/missing."""
+    from datetime import datetime
+
+    if int(episode.get("label_aki", 0) or 0) != 1:
+        return None
+    t0, aki = episode.get("t0"), episode.get("aki_time")
+    if not t0 or not aki:
+        return None
+    try:
+        t0d = datetime.fromisoformat(str(t0).replace(" ", "T"))
+        akid = datetime.fromisoformat(str(aki).replace(" ", "T"))
+    except Exception:
+        return None
+    return (akid - t0d).total_seconds() / 3600.0
+
+
+AKI_MARK = "#2d6a4f"
+
+
+def _truncate_path(path: Dict[str, Any], t_max: float) -> Dict[str, Any]:
+    keep = [i for i, th in enumerate(path["t"]) if th <= t_max]
+    return {
+        "t": [path["t"][i] for i in keep],
+        "z": [path["z"][i] for i in keep],
+        "p": [path["p"][i] for i in keep],
+        "codes": [path["codes"][i] for i in keep],
+        "z_base": path["z_base"],
+        "p_base": path["p_base"],
+    }
 
 
 def _bin_indices(episode: Dict[str, Any], h0: float, h1: float) -> List[int]:
@@ -432,82 +500,353 @@ def _permute_event_list(events, indices, order):
 
 
 def _path_in_bin(model, episode, code_vocab, lab_stats, num_med, device, h0, h1, age_stats=None):
+    path = _path_postop(
+        model, episode, code_vocab, lab_stats, num_med, device, age_stats=age_stats,
+    )
+    keep = [i for i, th in enumerate(path["t"]) if h0 <= th < h1]
+    return {
+        "t": [path["t"][i] for i in keep],
+        "z": [path["z"][i] for i in keep],
+        "p": [path["p"][i] for i in keep],
+        "codes": [path["codes"][i] for i in keep],
+        "z_base": path["z_base"],
+        "p_base": path["p_base"],
+    }
+
+
+def _path_postop(model, episode, code_vocab, lab_stats, num_med, device, age_stats=None):
+    """Full postoperative risk path; x is hours since index surgery."""
     from event_stream.event_attribution import episode_to_batch, forward_logits, logit_to_prob
 
     batch, seq, _ = episode_to_batch(
         episode, code_vocab, lab_stats, num_med, device, age_stats=age_stats
     )
-    z_base, base_idx, postop_idx, z_postop = forward_logits(model, batch)
+    z_base, _base_idx, postop_idx, z_postop = forward_logits(model, batch)
     ts, zs, ps, codes = [], [], [], []
     for pos, z in zip(postop_idx, z_postop):
         th = float(seq[pos].get("time_hour", -1))
-        if h0 <= th < h1:
-            ts.append(th)
-            zs.append(float(z))
-            ps.append(logit_to_prob(z))
-            codes.append(str(seq[pos].get("raw_code", "")))
+        if th < 0:
+            continue
+        ts.append(th)
+        zs.append(float(z))
+        ps.append(logit_to_prob(z))
+        codes.append(str(seq[pos].get("raw_code", "")))
     return {
         "t": ts, "z": zs, "p": ps, "codes": codes,
         "z_base": float(z_base), "p_base": logit_to_prob(z_base),
     }
 
 
-def _draw_case_path(ax, path: Dict[str, Any], title: str, color: str) -> None:
-    n = len(path["p"])
-    xs = np.arange(n)
-    ax.plot(xs, path["p"], color=color, lw=1.6, marker="o", markersize=2.6, zorder=3)
+def _reverse_within_all_bins(episode: Dict[str, Any], bucket_h: float = 6.0) -> Dict[str, Any]:
+    """Chronology-preserving reverse of event identity within every postoperative 6-h bin."""
+    ep = copy.deepcopy(episode)
+    events = list(ep.get("events") or [])
+    # Collect bin starts that actually contain eligible postoperative events.
+    bin_starts = sorted({
+        float(bucket_h) * int(float(ev["time_hour"]) // float(bucket_h))
+        for ev in events
+        if ev.get("time_hour") is not None
+        and float(ev["time_hour"]) >= 0
+        and str(ev.get("modality", "")).lower() != "procedure"
+    })
+    for h0 in bin_starts:
+        idxs = _bin_indices(ep, h0, h0 + float(bucket_h))
+        if len(idxs) < 2:
+            continue
+        order = list(range(len(idxs)))[::-1]
+        events = _permute_event_list(events, idxs, order)
+        ep["events"] = events
+    return ep
+
+
+def _logit_at_or_before(path: Dict[str, Any], t_end: float) -> Optional[float]:
+    z = None
+    for th, zz in zip(path["t"], path["z"]):
+        if th < t_end:
+            z = zz
+        else:
+            break
+    return z
+
+
+def _event_minute_clusters(
+    times: Sequence[float],
+    min_count: int = 5,
+    merge_within_min: int = 2,
+) -> List[Tuple[float, int]]:
+    """Return (hour, count) for same-minute bursts (≥ min_count), merging nearby minutes."""
+    from collections import Counter
+
+    keys = sorted(Counter(int(round(float(t) * 60.0)) for t in times).items())
+    if not keys:
+        return []
+    # Merge adjacent minute buckets within merge_within_min.
+    groups: List[List[Tuple[int, int]]] = [[keys[0]]]
+    for minute, n in keys[1:]:
+        if minute - groups[-1][-1][0] <= merge_within_min:
+            groups[-1].append((minute, n))
+        else:
+            groups.append([(minute, n)])
+    out: List[Tuple[float, int]] = []
+    for g in groups:
+        total = sum(n for _, n in g)
+        if total < min_count:
+            continue
+        # Weight center by event count.
+        center = sum(m * n for m, n in g) / total
+        out.append((center / 60.0, total))
+    out.sort(key=lambda x: -x[1])
+    return out
+
+
+def _mark_aki_onset(ax, aki_hours: Optional[float], *, h0: float, h1: float, label: bool) -> None:
+    """Vertical marker for real AKI onset when it falls in (or near) the plotted window."""
+    if aki_hours is None or not np.isfinite(aki_hours):
+        return
+    # Allow a small overhang so an onset exactly at the last event is still drawn.
+    if aki_hours < h0 - 0.05 or aki_hours > h1 + 0.35:
+        return
+    ax.axvline(aki_hours, color=AKI_MARK, ls="--", lw=1.35, alpha=0.95, zorder=4)
+    if label:
+        # Place the label in the empty mid-window region; arrow points to onset.
+        ax.annotate(
+            f"AKI onset  {aki_hours:.1f} h",
+            xy=(aki_hours, 0.50),
+            xytext=(max(h0 + 0.4, aki_hours - 1.55), 0.72),
+            textcoords="data",
+            ha="center", va="center", fontsize=6.6, color=AKI_MARK, fontweight="bold",
+            arrowprops=dict(arrowstyle="->", color=AKI_MARK, lw=0.9,
+                            connectionstyle="arc3,rad=0.05"),
+            bbox=dict(boxstyle="round,pad=0.18", facecolor="white", edgecolor=AKI_MARK,
+                      alpha=0.92, lw=0.7),
+            zorder=5,
+        )
+
+
+def _style_time_axis(ax, h0: float, h1: float, *, label_bottom: bool) -> np.ndarray:
+    xticks = np.arange(h0, h1 + 0.01, 0.5)
+    ax.set_xlim(h0 - 0.12, h1 + 0.12)
+    ax.set_xticks(xticks)
+    ax.set_xticks(np.arange(h0, h1 + 0.01, 0.25), minor=True)
+    ax.tick_params(labelsize=7.2, labelbottom=label_bottom)
+    ax.grid(axis="x", which="major", alpha=0.12)
+    if label_bottom:
+        ax.set_xticklabels([f"{t:g}" if t < h1 else f"{t:g} h" for t in xticks])
+        ax.set_xlabel("Hours since index surgery", fontsize=8.2)
+    return xticks
+
+
+def _draw_case_path(
+    ax,
+    path: Dict[str, Any],
+    title: str,
+    color: str,
+    *,
+    h0: float = 0.0,
+    h1: float = 6.0,
+    n_events: Optional[int] = None,
+    aki_hours: Optional[float] = None,
+    annotate: bool = False,
+    shade_bursts: bool = False,
+    show_ylabel: bool = True,
+) -> None:
+    """One probability path. AKI / scope note only when annotate=True (real stream)."""
+    xs = np.asarray(path["t"], dtype=float)
+    ys = np.asarray(path["p"], dtype=float)
+    n = len(ys)
+
+    # Burst bands first (same timestamps under reverse); labels live on the density strip.
+    if shade_bursts or annotate:
+        for th, _cnt in _event_minute_clusters(xs.tolist(), min_count=5):
+            ax.axvspan(th - 0.06, th + 0.06, color=color, alpha=0.12, zorder=0, lw=0)
+
+    if n:
+        ax.plot(xs, ys, color=color, lw=1.7, marker="o", markersize=2.6,
+                drawstyle="steps-post", zorder=3)
     ax.axhline(0.5, color="0.5", ls=(0, (3, 2)), lw=0.9, alpha=0.85)
-    ax.set_xlabel("Position within 6-h window (arrival order)", fontsize=8.6)
-    ax.set_title(title, loc="left", pad=4, **fig_style.subtitle_kw(ax.figure))
-    ax.tick_params(labelsize=7.6)
+    ax.axvline(h1, color="0.55", ls=":", lw=0.95, alpha=0.95, zorder=1)
+    if annotate:
+        _mark_aki_onset(ax, aki_hours, h0=h0, h1=h1, label=True)
+    ax.set_title(title, loc="left", pad=2, **fig_style.subtitle_kw(ax.figure))
+    _style_time_axis(ax, h0, h1, label_bottom=False)
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
     ax.grid(axis="y", alpha=0.22)
+    ax.set_ylim(-0.02, 1.05)
+    if show_ylabel:
+        ax.set_ylabel("Predicted PO-AKI\nprobability", fontsize=8.0)
+    else:
+        ax.tick_params(labelleft=False)
+
     if n:
         ax.annotate(
-            f"{path['p'][0]:.2f}", xy=(0, path["p"][0]),
-            xytext=(5, 0), textcoords="offset points", fontsize=7.0, color="0.35",
+            f"{ys[0]:.2f}", xy=(xs[0], ys[0]),
+            xytext=(3, 7 if ys[0] < 0.5 else -11), textcoords="offset points",
+            fontsize=6.6, color="0.35",
         )
+        # End value sits just above the path tip (AKI callout is mid-height, to the left).
+        end_dy = 8 if ys[-1] < 0.85 else -12
         ax.annotate(
-            f"{path['p'][-1]:.2f}", xy=(n - 1, path["p"][-1]),
-            xytext=(5, 0), textcoords="offset points", fontsize=7.0, color="0.35",
-            fontweight="bold",
+            f"at {h1:g} h: {ys[-1]:.2f}", xy=(xs[-1], ys[-1]),
+            xytext=(-2, end_dy), textcoords="offset points",
+            fontsize=6.8, color="0.2", fontweight="bold", ha="right",
+        )
+
+    if annotate:
+        note = f"Only the {h0:g}–{h1:g} h window"
+        if n_events is not None:
+            note += f"  ·  {n_events} events"
+        ax.text(
+            0.02, 0.96, note, transform=ax.transAxes, ha="left", va="top",
+            fontsize=6.6, color="0.35", style="italic",
+            bbox=dict(boxstyle="round,pad=0.16", facecolor="white", edgecolor="0.85", alpha=0.9),
         )
 
 
-def _draw_case_pair(ax0, ax1, path0, path1, dz: float) -> None:
-    _draw_case_path(ax0, path0, "Original order", BLUE)
-    _draw_case_path(
-        ax1, path1, rf"Reversed order  ·  $|\Delta\mathrm{{logit}}|$ at window end = {dz:.2f}", RED,
+def _draw_shared_density(
+    ax,
+    times: Sequence[float],
+    *,
+    h0: float,
+    h1: float,
+    aki_hours: Optional[float] = None,
+) -> None:
+    """Single event-arrival histogram (timestamps identical under reverse)."""
+    xs = np.asarray(times, dtype=float)
+    bin_w = 0.25
+    edges = np.arange(h0, h1 + bin_w, bin_w)
+    hist, _ = np.histogram(xs, bins=edges)
+    centers = 0.5 * (edges[:-1] + edges[1:])
+    ax.bar(
+        centers, hist, width=bin_w * 0.92, color="0.35", alpha=0.55, align="center",
+        edgecolor="0.25", linewidth=0.35,
     )
-    ax0.set_ylabel("Predicted PO-AKI probability", fontsize=8.6)
-    ax1.tick_params(labelleft=False)
+    ax.axvline(h1, color="0.55", ls=":", lw=0.95, alpha=0.95)
+    _mark_aki_onset(ax, aki_hours, h0=h0, h1=h1, label=False)
+    _style_time_axis(ax, h0, h1, label_bottom=True)
+    ymax = max(int(hist.max()) if len(hist) else 1, 1)
+    ax.set_ylim(0, ymax * 1.45)
+    ax.set_ylabel("Events /\n0.25 h", fontsize=7.4)
+    for s in ("top", "right"):
+        ax.spines[s].set_visible(False)
+    ax.grid(axis="y", alpha=0.18)
+
+    # Burst callouts on the density strip (shared by both paths).
+    for th, cnt in _event_minute_clusters(xs.tolist(), min_count=5):
+        # Height of the 0.25 h bin containing this burst.
+        bi = int(np.clip(np.searchsorted(edges, th, side="right") - 1, 0, len(hist) - 1))
+        y_bar = float(hist[bi]) if len(hist) else float(cnt)
+        ax.annotate(
+            f"{cnt} events\n≈{th:.1f} h",
+            xy=(th, y_bar), xytext=(0, 6), textcoords="offset points",
+            fontsize=6.4, color="0.2", ha="center", va="bottom",
+            bbox=dict(boxstyle="round,pad=0.15", facecolor="white", edgecolor="0.45",
+                      alpha=0.9, lw=0.6),
+        )
+
+
+def _draw_case_stack(
+    ax_orig,
+    ax_rev,
+    ax_dens,
+    path0, path1, dz: float,
+    *,
+    highlight_h0: Optional[float] = None,
+    highlight_h1: Optional[float] = None,
+    n_events: Optional[int] = None,
+    aki_hours: Optional[float] = None,
+) -> None:
+    """Stacked B panel: real stream (annotated) → reverse → shared density once."""
+    h0 = float(highlight_h0 if highlight_h0 is not None else 0.0)
+    h1 = float(highlight_h1 if highlight_h1 is not None else 6.0)
+    _draw_case_path(
+        ax_orig, path0, "Original arrival order", ORIG_COL,
+        h0=h0, h1=h1, n_events=n_events, aki_hours=aki_hours,
+        annotate=True, shade_bursts=True, show_ylabel=True,
+    )
+    _draw_case_path(
+        ax_rev, path1,
+        rf"Reversed arrival order  ·  $|\Delta\mathrm{{logit}}|$ at {h1:g} h = {dz:.2f}",
+        REV_COL,
+        h0=h0, h1=h1, n_events=n_events, aki_hours=None,
+        annotate=False, shade_bursts=True, show_ylabel=True,
+    )
+    _draw_shared_density(
+        ax_dens, path0["t"], h0=h0, h1=h1, aki_hours=aki_hours,
+    )
+
+
+def _select_illustrative_case(
+    es: pd.DataFrame,
+    *,
+    min_k: int = 20,
+    n_scan: int = 40,
+) -> Tuple[pd.Series, Dict[str, Any]]:
+    """Pick a high-|Δlogit| reverse example from the first postoperative 0–6 h window."""
+    rev = es[es["perm"].astype(str) == "reverse"].copy()
+    g = rev if not rev.empty else es
+    g = g[(g["h0"] == 0.0) & (g["h1"] == 6.0)].sort_values("abs_delta_logit", ascending=False)
+    if g.empty:
+        g = (
+            es.groupby(["person_id", "bin_j", "h0", "h1", "k", "n_distinct"], as_index=False)["abs_delta_logit"]
+            .mean()
+            .sort_values("abs_delta_logit", ascending=False)
+        )
+
+    cand_pids = []
+    seen = set()
+    for _, row in g.iterrows():
+        pid = str(int(row.person_id)) if float(row.person_id).is_integer() else str(row.person_id)
+        if pid in seen:
+            continue
+        if int(row.k) < min_k:
+            continue
+        seen.add(pid)
+        cand_pids.append(pid)
+        if len(cand_pids) >= n_scan:
+            break
+
+    episodes = _load_episodes(cand_pids)
+    # Prefer windows where most postoperative events in the plotted span fall inside 0–6 h.
+    scored: List[Tuple[Tuple[float, float], pd.Series, Dict[str, Any]]] = []
+    for _, row in g.iterrows():
+        pid = str(int(row.person_id)) if float(row.person_id).is_integer() else str(row.person_id)
+        if pid not in episodes or int(row.k) < min_k:
+            continue
+        hrs = _postop_hours(episodes[pid])
+        if not hrs:
+            continue
+        early = [h for h in hrs if 0.0 <= h < 6.0]
+        if len(early) < min_k:
+            continue
+        frac_early = len(early) / max(len([h for h in hrs if h < 48.0]), 1)
+        scored.append(((float(row.abs_delta_logit), frac_early), row, episodes[pid]))
+
+    if scored:
+        scored.sort(key=lambda x: x[0], reverse=True)
+        _score, row, ep = scored[0]
+        return row, ep
+
+    top = g.iloc[0]
+    pid = str(int(top.person_id)) if float(top.person_id).is_integer() else str(top.person_id)
+    return top, episodes[pid]
 
 
 def fig_c_case_path(es: pd.DataFrame, out: Path, device_str: str = "auto") -> Dict[str, Any]:
-    """Panel C: original vs reverse within-bin risk path for a high-|Δz| window."""
+    """Panel B: 0–6 h window only; x = hours since surgery; reverse within this window."""
     import sys
     sys.path.insert(0, str(ROOT / "code/model2"))
     from common.med_exposure import infer_num_med_exposure
     from common.utils import resolve_torch_device
     from event_stream.eval_common import build_model_from_checkpoint, load_checkpoint_bundle
+    from event_stream.event_attribution import logit_to_prob
 
-    g = (
-        es.groupby(["person_id", "bin_j", "h0", "h1", "k", "n_distinct"], as_index=False)["abs_delta_logit"]
-        .mean()
-        .sort_values("abs_delta_logit", ascending=False)
-    )
-    top = g.iloc[0]
+    top, episode = _select_illustrative_case(es)
     pid = str(int(top.person_id)) if float(top.person_id).is_integer() else str(top.person_id)
     h0, h1 = float(top.h0), float(top.h1)
-    # Prefer reverse for interpretability
-    rev_row = es[(es.person_id == top.person_id) & (es.bin_j == top.bin_j) & (es.perm == "reverse")]
-    if rev_row.empty:
-        rev_row = es[(es.person_id == top.person_id) & (es.bin_j == top.bin_j)].iloc[[0]]
-
-    episode = _load_episode(pid)
+    assert h0 == 0.0 and h1 == 6.0, (h0, h1)
     idxs = _bin_indices(episode, h0, h1)
-    assert len(idxs) == int(top.k), (len(idxs), top.k)
+    assert len(idxs) == int(top.k), (len(idxs), top.k, pid, h0, h1)
 
     device = resolve_torch_device(device_str)
     ckpt, code_vocab, lab_stats, age_stats, num_med = load_checkpoint_bundle(str(ES_CKPT))
@@ -518,19 +857,45 @@ def fig_c_case_path(es: pd.DataFrame, out: Path, device_str: str = "auto") -> Di
     model.to(device)
     model.eval()
 
+    # Restrict the illustration to this single 0–6 h window.
     path0 = _path_in_bin(model, episode, code_vocab, lab_stats, num_med, device, h0, h1, age_stats)
     ep_rev = copy.deepcopy(episode)
     order = list(range(len(idxs)))[::-1]
     ep_rev["events"] = _permute_event_list(episode["events"], idxs, order)
     path1 = _path_in_bin(model, ep_rev, code_vocab, lab_stats, num_med, device, h0, h1, age_stats)
 
-    dz = float(rev_row.iloc[0]["abs_delta_logit"])
-    CASE_PATH_DATA.write_text(json.dumps({"path_orig": path0, "path_rev": path1, "abs_delta_logit_reverse": dz}))
+    z0 = path0["z"][-1] if path0["z"] else None
+    z1 = path1["z"][-1] if path1["z"] else None
+    if z0 is not None and z1 is not None:
+        dz = float(abs(z1 - z0))
+    else:
+        dz = float(top.abs_delta_logit)
 
-    fig, axes = plt.subplots(1, 2, figsize=(11.4, 2.65), sharey=True)
-    _draw_case_pair(axes[0], axes[1], path0, path1, dz)
+    aki_h = _aki_hours_postop(episode)
+    CASE_PATH_DATA.write_text(json.dumps({
+        "path_orig": path0,
+        "path_rev": path1,
+        "abs_delta_logit_reverse": dz,
+        "highlight_h0": h0,
+        "highlight_h1": h1,
+        "person_id": pid,
+        "n_events": int(top.k),
+        "aki_hours": aki_h,
+        "scope": "0-6h_window_only",
+    }))
 
-    fig.tight_layout(pad=0.35)
+    fig = plt.figure(figsize=(6.4, 6.6))
+    gs = fig.add_gridspec(
+        3, 1, height_ratios=[1.15, 1.15, 0.55], hspace=0.22,
+        left=0.14, right=0.98, top=0.94, bottom=0.08,
+    )
+    ax_o = fig.add_subplot(gs[0])
+    ax_r = fig.add_subplot(gs[1], sharex=ax_o, sharey=ax_o)
+    ax_d = fig.add_subplot(gs[2], sharex=ax_o)
+    _draw_case_stack(
+        ax_o, ax_r, ax_d, path0, path1, dz,
+        highlight_h0=h0, highlight_h1=h1, n_events=int(top.k), aki_hours=aki_h,
+    )
     fig.savefig(out, dpi=170, bbox_inches="tight", pad_inches=0.08)
     plt.close(fig)
 
@@ -542,8 +907,12 @@ def fig_c_case_path(es: pd.DataFrame, out: Path, device_str: str = "auto") -> Di
         "k": int(top.k),
         "n_distinct": int(top.n_distinct),
         "abs_delta_logit_reverse": dz,
+        "scope": "0-6h_window_only",
+        "aki_hours": aki_h,
         "p_end_orig": float(path0["p"][-1]) if path0["p"] else None,
         "p_end_rev": float(path1["p"][-1]) if path1["p"] else None,
+        "p_at_highlight_orig": float(logit_to_prob(z0)) if z0 is not None else None,
+        "p_at_highlight_rev": float(logit_to_prob(z1)) if z1 is not None else None,
     }
     return meta
 
@@ -568,14 +937,15 @@ def fig_main_A_joint_B_case(
     finite = finite[np.isfinite(finite)]
     vmin, vmax = (float(finite.min()), float(finite.max())) if finite.size else (0.0, 1.0)
 
-    fig = plt.figure(figsize=(12.0, 8.6))
+    # Landscape: A (left) | B (right). B stacks original → reverse → density once.
+    fig = plt.figure(figsize=(14.2, 7.4))
     gs = fig.add_gridspec(
-        2, 1, height_ratios=[1.0, 0.62], hspace=0.62,
-        left=0.075, right=0.985, top=0.855, bottom=0.075,
+        1, 2, width_ratios=[1.12, 1.0], wspace=0.28,
+        left=0.055, right=0.985, top=0.88, bottom=0.08,
     )
-    top = gs[0].subgridspec(1, 2, width_ratios=[1.18, 1.05], wspace=0.32)
-    ax_h = fig.add_subplot(top[0])
-    ax_l = fig.add_subplot(top[1])
+    left = gs[0].subgridspec(2, 1, height_ratios=[1.05, 1.0], hspace=0.38)
+    ax_h = fig.add_subplot(left[0])
+    ax_l = fig.add_subplot(left[1])
     im = _draw_joint_heatmap(
         ax_h, med, cnt, T_LABS, K_LABS,
         r"Median $|\Delta\mathrm{logit}|$ by postoperative time and $k$", vmin, vmax,
@@ -589,21 +959,43 @@ def fig_main_A_joint_B_case(
         r"Median $|\Delta\mathrm{logit}|$ vs $k$ (95% bootstrap CI)", seed_offset=200,
     )
 
-    bot = gs[1].subgridspec(1, 2, wspace=0.06)
-    ax0 = fig.add_subplot(bot[0])
-    ax1 = fig.add_subplot(bot[1], sharey=ax0)
-    _draw_case_pair(
-        ax0, ax1, case["path_orig"], case["path_rev"], float(case["abs_delta_logit_reverse"]),
+    right = gs[1].subgridspec(
+        3, 1, height_ratios=[1.15, 1.15, 0.55], hspace=0.20,
+    )
+    ax_o = fig.add_subplot(right[0])
+    ax_r = fig.add_subplot(right[1], sharex=ax_o, sharey=ax_o)
+    ax_d = fig.add_subplot(right[2], sharex=ax_o)
+    aki_h = case.get("aki_hours")
+    if aki_h is None and case.get("person_id") is not None:
+        try:
+            aki_h = _aki_hours_postop(_load_episode(str(case["person_id"])))
+        except Exception:
+            aki_h = None
+    _draw_case_stack(
+        ax_o, ax_r, ax_d,
+        case["path_orig"], case["path_rev"], float(case["abs_delta_logit_reverse"]),
+        highlight_h0=case.get("highlight_h0", 0.0),
+        highlight_h1=case.get("highlight_h1", 6.0),
+        n_events=case.get("n_events"),
+        aki_hours=float(aki_h) if aki_h is not None else None,
     )
 
     fig.canvas.draw()
-    x0 = 0.012
-    ya = ax_l.get_position().y1 + 0.052
-    yb = ax0.get_position().y1 + 0.058
-    fig.text(x0, ya, fig_style.panel_label("A", "Order sensitivity by postoperative time and event density"),
-             va="bottom", **fig_style.panel_kw(fig))
-    fig.text(x0, yb, fig_style.panel_label("B", "Illustrative reversed-order perturbation"),
-             va="bottom", **fig_style.panel_kw(fig))
+    pos_a = ax_h.get_position()
+    pos_b = ax_o.get_position()
+    fig.text(
+        pos_a.x0 - 0.01, pos_a.y1 + 0.035,
+        fig_style.panel_label("A", "Order sensitivity by postoperative time and event density"),
+        va="bottom", **fig_style.panel_kw(fig),
+    )
+    fig.text(
+        pos_b.x0 - 0.01, pos_b.y1 + 0.035,
+        fig_style.panel_label(
+            "B",
+            "Illustrative reverse within the first 0–6 h window",
+        ),
+        va="bottom", **fig_style.panel_kw(fig),
+    )
     fig_style.add_suptitle(fig, "Within-window event-order sensitivity", y=0.975)
     fig.savefig(out, dpi=300, bbox_inches="tight", facecolor="white")
     plt.close(fig)
