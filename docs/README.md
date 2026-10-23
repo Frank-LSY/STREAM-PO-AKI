@@ -13,6 +13,10 @@ Interactive static presentation of STREAM: Sequential Transformer for Risk Estim
 
 官方说明：https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
 
+## 与模型代码放在同一个仓库
+
+如果复用已有研究代码仓库，可把本包内容放到 `main` 分支的 `docs/` 目录，确保入口是 `docs/index.html`。Pages 中选择 `main` 和 `/docs`。保留原有代码文件；如已有 `docs` 内容，请合并而非覆盖整个目录。
+
 ## 包含内容
 
 - `index.html`：入口
@@ -22,7 +26,7 @@ Interactive static presentation of STREAM: Sequential Transformer for Risk Estim
 - `assets/`：原始图表与机构标识
 - `.nojekyll`：静态文件发布标记
 
-已移除 manuscript 和 supplementary 的 Word 文件及两个下载入口。图表、表格、参考文献、讲者备注和交互均保留；此包不包含预测模型权重或推理服务。
+已移除 manuscript 和 supplementary 的 Word 文件及两个下载入口。图表、表格、参考文献、英文讲者备注和交互均保留；此包不包含预测模型权重或推理服务。
 
 ## 本地预览
 
