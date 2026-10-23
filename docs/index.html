@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#102e37"><meta name="description" content="An interactive research presentation of STREAM: event-stream modeling for surgery-index and dynamic postoperative AKI prediction."><title>STREAM · Event by event</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<a class="skip" href="#main">Skip to presentation</a>
+<header class="topbar"><a class="brand" href="#1" aria-label="STREAM home"><span class="brand-icon">≋</span> STREAM <small>Shuyu Lu et al.</small></a><nav aria-label="Presentation controls"><button id="overviewBtn">Chapters <span>☷</span></button><button id="notesBtn" aria-pressed="false">讲者备注</button><button id="modeBtn" aria-pressed="false">Reading view</button><button id="fullBtn" title="Full screen" aria-label="Full screen">⛶</button></nav></header>
+<main id="main" tabindex="-1"></main>
+<footer class="deckbar"><div><span id="sectionLabel"></span><span class="keyhint">← → to navigate · N notes · G chapters</span></div><div class="pagecontrols"><button id="prevBtn" aria-label="Previous chapter">←</button><span id="counter" aria-live="polite"></span><button id="nextBtn" aria-label="Next chapter">→</button></div><div class="progress"><span id="progress"></span></div></footer>
+<aside id="notes" class="notes" hidden><div class="drawer-head"><h2>讲者备注</h2><button id="closeNotes" aria-label="Close speaker notes">×</button></div><div id="notesText"></div></aside>
+<dialog id="overview"><div class="dialog-head"><div><span class="eyebrow">THE RESEARCH STORY</span><h2>Choose a chapter</h2></div><button data-close aria-label="Close chapter overview">×</button></div><div id="chapterGrid"></div></dialog>
+<dialog id="evidence"><div class="dialog-head"><div><span class="eyebrow">SOURCE FIGURE</span><h2 id="evidenceTitle"></h2></div><div><button id="zoomBtn">Zoom in</button><a id="imageLink" target="_blank" rel="noopener">Open image ↗</a><button data-close aria-label="Close figure">×</button></div></div><p id="evidenceCaption"></p><div class="image-stage"><img id="evidenceImage" alt=""></div></dialog>
+<script src="app.js"></script>
+</body></html>
